@@ -31,7 +31,7 @@ This is a complementary review focused on complexity and simplicity. It does not
 
 ### Always-On (every review)
 
-These 4 personas always run:
+These 6 personas always run:
 
 | Persona | Focus |
 |---------|-------|
@@ -39,6 +39,8 @@ These 4 personas always run:
 | `grug-abstraction` | Premature factoring, single-use abstractions, Chesterton's fence |
 | `grug-expression` | Nested conditionals, unnamed intermediates, hard-to-debug expressions |
 | `grug-locality` | Behavior spread across files, separation of concerns overuse, locality of behavior |
+| `grug-dead-code` | Unused functions, unreachable branches, commented-out code, unused imports |
+| `grug-errors` | Swallowed errors, empty catch blocks, silent fallbacks, ignored error callbacks |
 
 ### Conditional (triggered by diff content)
 
@@ -104,7 +106,7 @@ And stop.
 
 ### Stage 2: Select Reviewers
 
-**Always select:** `grug-complexity`, `grug-abstraction`, `grug-expression`, `grug-locality`
+**Always select:** `grug-complexity`, `grug-abstraction`, `grug-expression`, `grug-locality`, `grug-dead-code`, `grug-errors`
 
 **For each conditional persona**, read the diff and decide whether to activate. Use judgment, not mechanical keyword matching:
 
