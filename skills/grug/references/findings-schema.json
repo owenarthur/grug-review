@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grug Review Findings",
+  "description": "Output contract for grug reviewer personas. Each reviewer returns this structure.",
+  "type": "object",
+  "required": ["reviewer", "findings", "things_grug_not_sure_about"],
+  "additionalProperties": false,
+  "properties": {
+    "reviewer": {
+      "type": "string",
+      "description": "Persona identifier, e.g. 'grug-complexity', 'grug-abstraction'"
+    },
+    "findings": {
+      "type": "array",
+      "description": "All findings — both problems and praise. Empty array is valid.",
+      "items": {
+        "type": "object",
+        "required": ["title", "severity", "file", "line", "grug_say", "confidence", "evidence", "positive"],
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Short issue title, 10 words or fewer. e.g. 'nested ternary 4 levels deep' or 'simple clean loop'"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["bad", "very bad", "complexity demon"],
+            "description": "bad = minor grumble. very bad = genuine concern. complexity demon = alarm. Ignored for positive findings."
+          },
+          "file": {
+            "type": "string",
+            "description": "Relative path from repo root"
+          },
+          "line": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Primary line number (1-indexed)"
+          },
+          "grug_say": {
+            "type": "string",
+            "description": "Grug-voice commentary: what grug sees, why it matters, and what grug suggests. Must follow the voice guide. For positive findings, this is praise."
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Reviewer confidence. Suppress findings below 0.70. For positive findings, confidence that the code genuinely deserves praise."
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" },
+            "description": "Code-grounded evidence. At least one snippet or reference."
+          },
+          "positive": {
+            "type": "boolean",
+            "description": "true for 'grug like' findings (praise). false for problems."
+          },
+          "pre_existing": {
+            "type": "boolean",
+            "default": false,
+            "description": "true only for issues in unchanged code unrelated to the diff"
+          }
+        }
+      }
+    },
+    "things_grug_not_sure_about": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Risks or concerns grug noticed but can't confirm. Things below the confidence threshold that are still worth mentioning as uncertainty."
+    }
+  },
+  "_meta": {
+    "confidence_thresholds": {
+      "suppress": "Below 0.70 — grug not sure, don't report",
+      "flag": "0.70-0.84 — grug think this probably problem but context could justify",
+      "report": "0.85+ — grug very sure, pattern unambiguous"
+    },
+    "severity_scale": {
+      "bad": "Minor grumble. Grug notices but code still works. Developer's discretion.",
+      "very bad": "Genuine concern. This will cause confusion or maintenance pain.",
+      "complexity demon": "Alarm. Complexity demon has entered the code. Must address."
+    }
+  }
+}
