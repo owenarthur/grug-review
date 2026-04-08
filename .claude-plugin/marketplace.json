@@ -9,7 +9,7 @@
     {
       "name": "grug",
       "description": "grug review code",
-      "source": ".."
+      "source": "./plugins/grug"
     }
   ]
 }
