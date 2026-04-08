@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "grug-review",
+  "description": "grug review code",
+  "owner": {
+    "name": "Owen"
+  },
+  "plugins": [
+    {
+      "name": "grug",
+      "description": "grug review code",
+      "source": ".."
+    }
+  ]
+}
